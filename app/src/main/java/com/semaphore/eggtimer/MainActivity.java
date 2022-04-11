@@ -20,20 +20,22 @@ public class MainActivity extends AppCompatActivity {
     Button goBtn;
     CountDownTimer countDownTimer;
 
+    public void restartTimer(){
+        // if the counter is not active, the user can stop the countdown and change the seekbar
+        timerSeekBar.setEnabled(true); // enable the seekbar
+        timerSeekBar.setProgress(0); // reset the seekbar value
+        countdownTextView.setText("0:00"); // reset the textview
+        countDownTimer.cancel(); // stop the counter
+        goBtn.setText("GO!"); // update the button text
+        counterIsActive = false; // update the counterIsActive
+    }
+
 
     // onClick function for the button
     public void goTimer(View view){
 
         if(counterIsActive){
-            // if the counter is not active, the user can stop the countdown and change the seekbar
-            timerSeekBar.setEnabled(true); // enable the seekbar
-            timerSeekBar.setProgress(30); // reset the seekbar value
-            countdownTextView.setText("0:30"); // reset the textview
-            countDownTimer.cancel(); // stop the counter
-            goBtn.setText("GO!"); // update the button text
-            counterIsActive = false; // update the counterIsActive
-
-
+            restartTimer();
         } else {
             counterIsActive = true; // when someone clicks on the "Go" button, set the counterIsActive to true
             timerSeekBar.setEnabled(false); // make the seekbar invisible when the counter is going
@@ -52,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
                     // play the sound of the timer is finished
                     MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.airhorn);
                     mediaPlayer.start();
-                    timerSeekBar.setVisibility(View.VISIBLE);
+                    restartTimer();
+
                 }
             }.start();
         }
